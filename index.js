@@ -1,6 +1,9 @@
 const calculator = {
     displayValue: '0',
     firstOperand: null,
+    
+    currentlyOperator: false,
+
     waitingForSecondOperand: false,
     operator: null
 };
@@ -13,7 +16,10 @@ function updateDisplay()
 }
 function handleOperator(value)
 {
+    if(calculator.currentlyOperator === true)
+        calculator.displayValue = calculator.displayValue.slice(0,-1);
     calculator.displayValue += value;
+    calculator.currentlyOperator = true;
 }
 
 updateDisplay();
@@ -38,12 +44,14 @@ keys.addEventListener("click" , event => {
         case '*':
         case '/':
         case '=':
+            
             handleOperator(value);
             break;
         case 'C':
             calculator.displayValue = '0';
             break;
         default:
+            calculator.currentlyOperator= false;
             if( calculator.displayValue == 0)
                 calculator.displayValue = value;
             else
@@ -51,7 +59,7 @@ keys.addEventListener("click" , event => {
 
     }
     updateDisplay();
-
+    console.log(calculator.currentlyOperator)
 
 }
  )
