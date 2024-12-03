@@ -5,7 +5,10 @@ const calculator = {
     currentlyOperator: false,
 
     waitingForSecondOperand: false,
-    operator: null
+    operator: null,
+
+    primeiroNumero: null,
+    operadorLocked: false
 };
 
 function updateDisplay()
@@ -16,6 +19,7 @@ function updateDisplay()
 }
 function handleOperator(value)
 {
+    calculator.operator = value;
     if(calculator.currentlyOperator === true)
         calculator.displayValue = calculator.displayValue.slice(0,-1);
     calculator.displayValue += value;
@@ -35,7 +39,7 @@ keys.addEventListener("click" , event => {
         return;
     }
     
-    console.log(value);
+    //console.log(value);
 
     switch (value)
     {
@@ -43,14 +47,42 @@ keys.addEventListener("click" , event => {
         case '-':
         case '*':
         case '/':
-        case '=':
-            
-            handleOperator(value);
+            if(calculator.operadorLocked == false){
+                if(calculator.primeiroNumero == null)
+                    calculator.primeiroNumero = parseFloat(calculator.displayValue);              
+                handleOperator(value);
+                console.log(calculator.primeiroNumero);
+}
             break;
         case 'C':
             calculator.displayValue = '0';
             break;
+        case '=':
+            let comeco =1 + calculator.displayValue.indexOf(calculator.operator);
+            let segundoNumero = parseFloat(calculator.displayValue.slice(comeco,calculator.displayValue.length));
+            let resultado = 0;
+            switch (calculator.operator)
+            {
+                case '+':
+                    resultado = calculator.primeiroNumero + segundoNumero;
+                    break;
+                case '-':
+                    resultado = calculator.primeiroNumero - segundoNumero;
+                    break;
+                case '*':
+                    resultado = calculator.primeiroNumero* segundoNumero;
+                    break;
+                case '/':
+                    resultado = calculator.primeiroNumero/segundoNumero;
+                    break;
+            }
+                console.log(resultado);
+            break;
         default:
+            if(calculator.primeiroNumero !== null)
+                calculator.operadorLocked = true;
+
+
             calculator.currentlyOperator= false;
             if( calculator.displayValue == 0)
                 calculator.displayValue = value;
@@ -59,7 +91,6 @@ keys.addEventListener("click" , event => {
 
     }
     updateDisplay();
-    console.log(calculator.currentlyOperator)
 
 }
  )
