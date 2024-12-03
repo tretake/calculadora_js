@@ -1,10 +1,7 @@
 const calculator = {
     displayValue: '0',
-    firstOperand: null,
     
     currentlyOperator: false,
-
-    waitingForSecondOperand: false,
     operator: null,
 
     primeiroNumero: null,
@@ -48,14 +45,14 @@ keys.addEventListener("click" , event => {
         case '*':
         case '/':
             if(calculator.operadorLocked == false){
-                if(calculator.primeiroNumero == null)
+                if(calculator.operator == null)
                     calculator.primeiroNumero = parseFloat(calculator.displayValue);              
                 handleOperator(value);
                 console.log(calculator.primeiroNumero);
 }
             break;
         case 'C':
-            calculator.displayValue = '0';
+            window.location.reload();
             break;
         case '=':
             let comeco =1 + calculator.displayValue.indexOf(calculator.operator);
@@ -76,10 +73,14 @@ keys.addEventListener("click" , event => {
                     resultado = calculator.primeiroNumero/segundoNumero;
                     break;
             }
-                console.log(resultado);
+                    calculator.displayValue = resultado
+                    calculator.primeiroNumero = resultado;
+                    calculator.operadorLocked = false;
+                    calculator.currentlyOperator = false;
+                    calculator.operator = null;
             break;
         default:
-            if(calculator.primeiroNumero !== null)
+            if(calculator.operator != null)
                 calculator.operadorLocked = true;
 
 
