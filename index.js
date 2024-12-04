@@ -55,6 +55,7 @@ keys.addEventListener("click" , event => {
             window.location.reload();
             break;
         case '=':
+            if(calculator.operadorLocked == true){
             let comeco =1 + calculator.displayValue.indexOf(calculator.operator);
             let segundoNumero = parseFloat(calculator.displayValue.slice(comeco,calculator.displayValue.length));
             let resultado = 0;
@@ -77,7 +78,7 @@ keys.addEventListener("click" , event => {
                     calculator.primeiroNumero = resultado;
                     calculator.operadorLocked = false;
                     calculator.currentlyOperator = false;
-                    calculator.operator = null;
+                    calculator.operator = null;}
             break;
         default:
             if(calculator.operator != null)
