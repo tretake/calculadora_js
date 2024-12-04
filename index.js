@@ -5,7 +5,35 @@ const calculator = {
     operator: null,
 
     primeiroNumero: null,
-    operadorLocked: false
+    operadorLocked: false,
+
+
+    calcular: function ()
+    {
+        let comeco =1 + calculator.displayValue.indexOf(calculator.operator);
+        let segundoNumero = parseFloat(calculator.displayValue.slice(comeco,calculator.displayValue.length));
+        let resultado = 0;
+        switch (calculator.operator)
+        {
+            case '+':
+                resultado = calculator.primeiroNumero + segundoNumero;
+                break;
+            case '-':
+                resultado = calculator.primeiroNumero - segundoNumero;
+                break;
+            case '*':
+                resultado = calculator.primeiroNumero* segundoNumero;
+                break;
+            case '/':
+                resultado = calculator.primeiroNumero/segundoNumero;
+                break;
+        }
+                calculator.displayValue = resultado
+                calculator.primeiroNumero = resultado;
+                calculator.operadorLocked = false;
+                calculator.currentlyOperator = false;
+                calculator.operator = null;
+    }
 };
 
 function updateDisplay()
@@ -55,30 +83,8 @@ keys.addEventListener("click" , event => {
             window.location.reload();
             break;
         case '=':
-            if(calculator.operadorLocked == true){
-            let comeco =1 + calculator.displayValue.indexOf(calculator.operator);
-            let segundoNumero = parseFloat(calculator.displayValue.slice(comeco,calculator.displayValue.length));
-            let resultado = 0;
-            switch (calculator.operator)
-            {
-                case '+':
-                    resultado = calculator.primeiroNumero + segundoNumero;
-                    break;
-                case '-':
-                    resultado = calculator.primeiroNumero - segundoNumero;
-                    break;
-                case '*':
-                    resultado = calculator.primeiroNumero* segundoNumero;
-                    break;
-                case '/':
-                    resultado = calculator.primeiroNumero/segundoNumero;
-                    break;
-            }
-                    calculator.displayValue = resultado
-                    calculator.primeiroNumero = resultado;
-                    calculator.operadorLocked = false;
-                    calculator.currentlyOperator = false;
-                    calculator.operator = null;}
+            if(calculator.operadorLocked == true)
+                calculator.calcular();
             break;
         default:
             if(calculator.operator != null)
@@ -95,4 +101,7 @@ keys.addEventListener("click" , event => {
     updateDisplay();
 
 }
- )
+)
+
+
+
