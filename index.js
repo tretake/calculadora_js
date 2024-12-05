@@ -33,26 +33,28 @@ const calculator = {
                 calculator.operadorLocked = false;
                 calculator.currentlyOperator = false;
                 calculator.operator = null;
+    },
+
+    updateDisplay: function()
+    {
+        document.querySelector(".display").value = this.displayValue;
+    },
+
+    handleOperator(value){
+        this.operator = value;
+    if(this.currentlyOperator === true)
+        this.displayValue = this.displayValue.slice(0,-1);
+    this.displayValue += value;
+    this.currentlyOperator = true;
     }
 };
-
-function updateDisplay()
-{
-    let display = document.querySelector(".display");
-
-    display.value = calculator.displayValue;
-}
-function handleOperator(value)
-{
-    calculator.operator = value;
-    if(calculator.currentlyOperator === true)
-        calculator.displayValue = calculator.displayValue.slice(0,-1);
-    calculator.displayValue += value;
-    calculator.currentlyOperator = true;
-}
-
-updateDisplay();
+calculator.updateDisplay();
 const keys = document.querySelector('.butoes');
+
+
+
+
+
 keys.addEventListener("click" , event => {
     const { target } = event;
     const { value } = target;
@@ -60,12 +62,8 @@ keys.addEventListener("click" , event => {
     
 
     if(!target.matches("button") )
-    {
         return;
-    }
     
-    //console.log(value);
-
     switch (value)
     {
         case '+':
@@ -75,9 +73,7 @@ keys.addEventListener("click" , event => {
             if(calculator.operadorLocked == false){
                 if(calculator.operator == null)
                     calculator.primeiroNumero = parseFloat(calculator.displayValue);              
-                handleOperator(value);
-                console.log(calculator.primeiroNumero);
-}
+                calculator.handleOperator(value);}
             break;
         case 'C':
             window.location.reload();
@@ -98,7 +94,7 @@ keys.addEventListener("click" , event => {
                 calculator.displayValue += value;
 
     }
-    updateDisplay();
+    calculator.updateDisplay();
 
 }
 )
